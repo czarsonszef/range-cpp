@@ -70,7 +70,7 @@ namespace rg
                         }
 
 
-                        constexpr auto operator*() noexcept -> T&
+                        constexpr auto& operator*() noexcept
                         {
                                 return m_n;
                         }
@@ -107,7 +107,7 @@ namespace rg
                         , m_to{to}
                         , m_step{step}
                 {
-                        // results in an infinite loop if from < to and step < 0 or if from > to and step > 0
+
                 }
         
 
