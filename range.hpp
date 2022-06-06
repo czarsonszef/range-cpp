@@ -8,7 +8,10 @@ namespace rg
 
         namespace detail 
         {
+                
 
+                template <typename T>
+                class range_iter;
 
                 struct empty
                 {
@@ -39,6 +42,9 @@ namespace rg
         public:
 
 
+                friend class detail::range_iter<T>;
+
+
                 range() = delete;
 
 
@@ -51,9 +57,53 @@ namespace rg
 
                 }
 
+                constexpr auto begin() -> detail::range_iter<T>
+                {
+                        return *this;
+                }
+
+
+                constexpr auto end() const noexcept -> detail::empty
+                {
+                        return
+                                {
+
+                                };
+                }
+        
+
+        private:
+
+
+                T m_n,
+                  m_to,
+                  m_step;
+
+
+                bool (*m_cmp)(T, T);
+
+
+        };
+
+        template <typename T>
+        class detail::range_iter
+        {
+        public:
+
+
+                range_iter() = delete;
+                
+
+                constexpr range_iter(range<T>& rng)
+                        : m_rng(rng)
+                {
+
+                }
+
+
                 constexpr decltype(auto) operator++()
                 {
-                        m_n += m_step;
+                        m_rng.m_n += m_rng.m_step;
                         return *this;
                 }
 
@@ -68,40 +118,19 @@ namespace rg
 
                 constexpr auto operator!=(detail::empty) const
                 {
-                        return m_cmp(m_n, m_to);
+                        return m_rng.m_cmp(m_rng.m_n, m_rng.m_to);
                 }
 
 
                 constexpr auto& operator*() noexcept
                 {
-                        return m_n;
+                        return m_rng.m_n;
                 }
-        
-
-                constexpr decltype(auto) begin()
-                {
-                        return *this;
-                }
-
-
-                constexpr auto end() const noexcept -> detail::empty
-                {
-                        return
-                                {
-
-                                };
-                }
-
 
         private:
-        
-
-                T m_n,
-                  m_to,
-                  m_step;
 
 
-                bool (*m_cmp)(T, T);
+                range<T>& m_rng;
 
 
         };
