@@ -17,6 +17,20 @@ namespace rg
 
 
                 template <typename T>
+                inline constexpr bool less(T a, T b) noexcept
+                {
+                        return a < b;
+                }
+
+
+                template <typename T>
+                inline constexpr bool greater(T a, T b) noexcept
+                {
+                        return a > b;
+                }
+
+
+                template <typename T>
                 class range_iter
                 {
                 public:
@@ -29,7 +43,7 @@ namespace rg
                                 : m_n{n}
                                 , m_to{to}
                                 , m_step{step}
-                                , m_b{n < to}
+                                , m_cmp{n < to ? &less<T> : &greater<T>}
                         {
 
                         }
@@ -52,10 +66,7 @@ namespace rg
 
                    	constexpr auto operator!=(empty) const noexcept
                         {
-                                if (m_b)
-                                        return m_n < m_to;
-
-                                return m_n > m_to;
+                                return m_cmp(m_n, m_to);
                         }
 
 
@@ -73,7 +84,7 @@ namespace rg
                           m_step;
 
 
-                        bool m_b;
+                        bool (*m_cmp)(T, T);
 
 
                 };
