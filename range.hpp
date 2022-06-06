@@ -17,14 +17,14 @@ namespace rg
 
 
                 template <typename T>
-                inline constexpr bool less(T a, T b) noexcept
+                inline constexpr auto less(T a, T b) noexcept
                 {
                         return a < b;
                 }
 
 
                 template <typename T>
-                inline constexpr bool greater(T a, T b) noexcept
+                inline constexpr auto greater(T a, T b) noexcept
                 {
                         return a > b;
                 }
