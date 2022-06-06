@@ -17,14 +17,14 @@ namespace rg
 
 
                 template <typename T>
-                inline constexpr auto less(T a, T b) noexcept
+                inline constexpr auto less(T a, T b)
                 {
                         return a < b;
                 }
 
 
                 template <typename T>
-                inline constexpr auto greater(T a, T b) noexcept
+                inline constexpr auto greater(T a, T b)
                 {
                         return a > b;
                 }
@@ -39,7 +39,7 @@ namespace rg
                         range_iter() = delete;
 
 
-                        constexpr range_iter(T n, T to, T step) noexcept
+                        constexpr range_iter(T n, T to, T step)
                                 : m_n{n}
                                 , m_to{to}
                                 , m_step{step}
@@ -49,14 +49,14 @@ namespace rg
                         }
 
 
-                        constexpr decltype(auto) operator++() noexcept
+                        constexpr decltype(auto) operator++()
                         {
                                 m_n += m_step;
                                 return *this;
                         }
 
 
-                        constexpr auto operator++(int) noexcept
+                        constexpr auto operator++(int)
                         {
                                 auto buf = *this;
                                 this->operator++();
@@ -64,7 +64,7 @@ namespace rg
                         }
 
 
-                   	constexpr auto operator!=(empty) const noexcept
+                   	constexpr auto operator!=(empty) const
                         {
                                 return m_cmp(m_n, m_to);
                         }
@@ -102,7 +102,7 @@ namespace rg
                 range() = delete;
 
 
-                constexpr explicit range(T from, T to, T step = 1) noexcept
+                constexpr explicit range(T from, T to, T step = 1)
                         : m_from{from}
                         , m_to{to}
                         , m_step{step}
@@ -111,7 +111,7 @@ namespace rg
                 }
         
 
-                constexpr auto begin() const noexcept -> detail::range_iter<T>
+                constexpr auto begin() const -> detail::range_iter<T>
                 {
                         return
                                 {
