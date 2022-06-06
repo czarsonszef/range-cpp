@@ -92,10 +92,10 @@ namespace rg
 
 
                 range_iter() = delete;
-                
+
 
                 constexpr range_iter(range<T>& rng)
-                        : m_rng(rng)
+                        : m_rng{rng}
                 {
 
                 }
@@ -126,6 +126,7 @@ namespace rg
                 {
                         return m_rng.m_n;
                 }
+
 
         private:
 
