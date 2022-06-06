@@ -29,67 +29,7 @@ namespace rg
                         return a > b;
                 }
 
-
-                template <typename T>
-                class range_iter
-                {
-                public:
-
-
-                        range_iter() = delete;
-
-
-                        constexpr range_iter(T n, T to, T step)
-                                : m_n{n}
-                                , m_to{to}
-                                , m_step{step}
-                                , m_cmp{n < to ? &less<T> : &greater<T>}
-                        {
-
-                        }
-
-
-                        constexpr decltype(auto) operator++()
-                        {
-                                m_n += m_step;
-                                return *this;
-                        }
-
-
-                        constexpr auto operator++(int)
-                        {
-                                auto buf = *this;
-                                this->operator++();
-                                return buf;
-                        }
-
-
-                   	constexpr auto operator!=(empty) const
-                        {
-                                return m_cmp(m_n, m_to);
-                        }
-
-
-                        constexpr auto& operator*() noexcept
-                        {
-                                return m_n;
-                        }
-
-
-                private:
-
-
-                        T m_n,
-                          m_to,
-                          m_step;
-
-
-                        bool (*m_cmp)(T, T);
-
-
-                };
-
-
+                
         } /* namespace detail */
 
 
@@ -103,22 +43,44 @@ namespace rg
 
 
                 constexpr explicit range(T from, T to, T step = 1)
-                        : m_from{from}
+                        : m_n{from}
                         , m_to{to}
                         , m_step{step}
+                        , m_cmp{from < to ? &detail::less<T> : &detail::greater<T>}
                 {
 
                 }
+
+                constexpr decltype(auto) operator++()
+                {
+                        m_n += m_step;
+                        return *this;
+                }
+
+
+                constexpr auto operator++(int)
+                {
+                        auto buf = *this;
+                        this->operator++();
+                        return buf;
+                }
+
+
+                constexpr auto operator!=(detail::empty) const
+                {
+                        return m_cmp(m_n, m_to);
+                }
+
+
+                constexpr auto& operator*() noexcept
+                {
+                        return m_n;
+                }
         
 
-                constexpr auto begin() const -> detail::range_iter<T>
+                constexpr decltype(auto) begin()
                 {
-                        return
-                                {
-                                        m_from,
-                                        m_to,
-                                        m_step
-                                };
+                        return *this;
                 }
 
 
@@ -134,9 +96,12 @@ namespace rg
         private:
         
 
-            T m_from,
-              m_to,
-              m_step;
+                T m_n,
+                  m_to,
+                  m_step;
+
+
+                bool (*m_cmp)(T, T);
 
 
         };
