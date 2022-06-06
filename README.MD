@@ -5,7 +5,7 @@ for (auto& i : rg::range(1, 19, 3))
     /* ... */
 }
 ```
-### Translates to:
+Translates to:
 ```c++
 rg::range<int>&& __range1 = rg::range<>(1, 19, 3);
 rg::detail::range_iter<int> __begin1 = __range1.begin();
