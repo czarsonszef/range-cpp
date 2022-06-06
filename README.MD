@@ -2,7 +2,7 @@
 ```c++
 for (auto& i : rg::range(1, 19, 3))
 {
-    /* ... */
+    std::cout << i << ' ';
 }
 ```
 Translates to:
@@ -13,4 +13,8 @@ rg::detail::empty __end1 = __range1.end();
 for (; __begin1.operator!=(rg::detail::empty(__end1)); __begin1.operator++()) {
     int& e = __begin1.operator*();
 }
+```
+Output:
+```c++
+1 4 7 10 13 16
 ```
