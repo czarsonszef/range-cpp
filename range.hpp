@@ -12,6 +12,7 @@ namespace rg
 
                 template <typename T>
                 class range_iter;
+                
 
                 struct empty
                 {
