@@ -1,6 +1,7 @@
 #ifndef RANGE_HPP_INCLUDED
 #define RANGE_HPP_INCLUDED
 
+#include <type_traits>
 
 namespace rg
 {
@@ -37,7 +38,7 @@ namespace rg
         } /* namespace detail */
 
 
-        template <typename T = int>
+        template <typename T>
         class range
         {
         public:
@@ -49,14 +50,16 @@ namespace rg
                 range() = delete;
 
 
-                constexpr explicit range(T from, T to, T step = 1)
+                template <typename U, typename W>
+                constexpr explicit range(T from, U to, W step = 1)
                         : m_n{from}
-                        , m_to{to}
-                        , m_step{step}
+                        , m_to{static_cast<T>(to)}
+                        , m_step{static_cast<T>(step)}
                         , m_cmp{from < to ? &detail::less<T> : &detail::greater<T>}
                 {
 
                 }
+
 
                 constexpr auto begin() -> detail::range_iter<T>
                 {
