@@ -1,6 +1,6 @@
 # Example
 ```c++
-for (auto i : rg::range(1, 19.3, 3.0)) // decltype(i) == int (type of the first param)
+for (auto i : rg::range(1, 19.3, 3.2)) // decltype(i) == int (type of the first param)
 {
     std::cout << i << ' ';
 }
@@ -22,27 +22,12 @@ Output:
 ```
 # Example 2
 ```c++
-const float f = 17.9;
-const char c = 3;
-const double d = -3.9;
-
-for (auto i : rg::range<int>(f, c, d)) /* decltype(i) == int */
+for (auto i : rg::range<double>(1, 19.3, 3.2)) // decltype(i) == double
 {
     std::cout << i << ' ';
 }
 ```
 Output:
 ```c++
-17 14 11 8 5
-```
-# Example 3
-```c++
-for (auto i : rg::range<double>(4, 12, 3.3)) /* decltype(i) == double */
-{
-    std::cout << i << ' ';
-}
-```
-Output:
-```c++
-4 7.3 10.6
+1 4.2 7.4 10.6 13.8 17
 ```
