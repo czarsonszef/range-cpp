@@ -1,4 +1,4 @@
-# Example
+# Example 1
 ```c++
 for (auto i : rg::range(1, 19.3, 3.2)) // decltype(i) == int (type of the first param)
 {
