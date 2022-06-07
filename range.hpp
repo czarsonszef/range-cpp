@@ -1,7 +1,6 @@
 #ifndef RANGE_HPP_INCLUDED
 #define RANGE_HPP_INCLUDED
 
-#include <type_traits>
 
 namespace rg
 {
@@ -52,10 +51,25 @@ namespace rg
 
                 template <typename U, typename W>
                 constexpr explicit range(T from, U to, W step = 1)
-                        : m_n{from}
-                        , m_to{static_cast<T>(to)}
-                        , m_step{static_cast<T>(step)}
-                        , m_cmp{from < to ? &detail::less<T> : &detail::greater<T>}
+                        : m_n
+                          {
+                                  from
+                          }
+
+                        , m_to
+                          {
+                                  static_cast<T>(to)
+                          }
+
+                        , m_step
+                          {
+                                  static_cast<T>(step)
+                          }
+
+                        , m_cmp
+                          {
+                                  from < to ? &detail::less<T> : &detail::greater<T>
+                          }
                 {
 
                 }

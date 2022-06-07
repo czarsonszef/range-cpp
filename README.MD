@@ -1,13 +1,13 @@
 # Example
 ```c++
-for (auto i : rg::range(1, 19.3, 3.0)) // decltype(i) == decltype(first arg of range ctor - int);
-{                                      // can be changed to other type by specifiying the template param by yourself - see example 2
+for (auto i : rg::range(1, 19.3, 3.0)) // decltype(i) == int (type of the first param)
+{
     std::cout << i << ' ';
 }
 ```
 Translates to:
 ```c++
-rg::range<int>&& __range1 = rg::range<>(1, 19, 3);
+rg::range<int>&& __range1 = rg::range<int>(1, 19.3, 3.0);
 rg::detail::range_iter<int> __begin1 = __range1.begin();
 rg::detail::empty __end1 = __range1.end();
 for (; __begin1.operator!=(detail::empty(__end1)); __begin1.operator++())
@@ -34,4 +34,15 @@ for (auto i : rg::range<int>(f, c, d)) /* decltype(i) == int */
 Output:
 ```c++
 17 14 11 8 5
+```
+# Example 3
+```c++
+for (auto i : rg::range<double>(4, 12, 3.3)) /* decltype(i) == double */
+{
+    std::cout << i << ' ';
+}
+```
+Output:
+```c++
+4 7.3 10.6
 ```
