@@ -49,7 +49,7 @@ namespace rg
         <
                 class T,
                 class U,
-                class W
+                class W = int
         >
         class range
         {
