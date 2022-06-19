@@ -29,14 +29,14 @@ namespace rg
 
 
                 template <class T>
-                constexpr auto less(T a, T b)
+                constexpr auto less(T a, T b) noexcept
                 {
                         return a < b;
                 }
 
 
                 template <class T>
-                constexpr auto greater(T a, T b)
+                constexpr auto greater(T a, T b) noexcept
                 {
                         return a > b;
                 }
@@ -65,7 +65,7 @@ namespace rg
                 range() = delete;
 
 
-                constexpr range(T from, U to, W step = 1)
+                constexpr range(T from, U to, W step = 1) noexcept
                         : m_n
                           {
                                   static_cast<InnerType>
@@ -108,7 +108,7 @@ namespace rg
                 }
 
 
-                constexpr auto begin() -> detail::range_iter<T, U, W>
+                constexpr auto begin() noexcept -> detail::range_iter<T, U, W>
                 {
                         return *this;
                 }
@@ -151,7 +151,7 @@ namespace rg
                 range_iter() = delete;
 
 
-                constexpr range_iter(range<T, U, W>& rng)
+                constexpr range_iter(range<T, U, W>& rng) noexcept
                         : m_rng
                           {
                                   rng
@@ -161,7 +161,7 @@ namespace rg
                 }
 
 
-                constexpr auto operator++() -> decltype(auto)
+                constexpr auto operator++() noexcept -> decltype(auto)
                 {
                         m_rng.m_n += m_rng.m_step;
 
@@ -169,7 +169,7 @@ namespace rg
                 }
 
 
-                constexpr auto operator!=(detail::empty) const
+                constexpr auto operator!=(detail::empty) const noexcept
                 {
                         return m_rng.m_cmp(m_rng.m_n, m_rng.m_to);
                 }
