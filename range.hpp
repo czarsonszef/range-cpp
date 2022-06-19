@@ -97,9 +97,14 @@ namespace rg
                                         :
                                         &detail::greater<InnerType>
                           }
+
                 {
-                        if ((from < to && step < 0) || (from > to && step > 0))
-                                throw std::range_error("Incorrect range"); // todo: handle this case without throwing
+
+                        if ((m_n < m_to && m_step < 0) || (m_n > m_to && m_step > 0)) // if this check passes it means the range is incorrect, we don't want to enter the for loop
+                        {
+                                m_n = m_to;     // makes detail::range_iter::operator!= return false, the for loop won't be entered
+                        }
+
                 }
 
 
