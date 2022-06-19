@@ -2,6 +2,9 @@
 #define RANGE_HPP_INCLUDED
 
 
+#include <type_traits>
+
+
 namespace rg
 {
 
@@ -10,7 +13,12 @@ namespace rg
         {
                 
 
-                template <typename T>
+                template
+                <
+                        class,
+                        class,
+                        class
+                >
                 class range_iter;
                 
 
@@ -20,15 +28,15 @@ namespace rg
                 };
 
 
-                template <typename T>
-                inline constexpr auto less(T a, T b)
+                template <class T>
+                constexpr auto less(T a, T b)
                 {
                         return a < b;
                 }
 
 
-                template <typename T>
-                inline constexpr auto greater(T a, T b)
+                template <class T>
+                constexpr auto greater(T a, T b)
                 {
                         return a > b;
                 }
@@ -37,45 +45,64 @@ namespace rg
         } /* namespace detail */
 
 
-        template <typename T>
+        template
+        <
+                class T,
+                class U,
+                class W
+        >
         class range
         {
         public:
 
 
-                friend class detail::range_iter<T>;
+                using InnerType = std::common_type_t<T, U, W>;
+
+
+                friend class detail::range_iter<T, U, W>;
 
 
                 range() = delete;
 
 
-                template <typename U, typename W>
                 constexpr explicit range(T from, U to, W step = 1)
                         : m_n
                           {
-                                  from
+                                  static_cast<InnerType>
+                                  (
+                                        from
+                                  )
                           }
 
                         , m_to
                           {
-                                  static_cast<T>(to)
+                                  static_cast<InnerType>
+                                  (
+                                        to
+                                  )
                           }
 
                         , m_step
                           {
-                                  static_cast<T>(step)
+                                  static_cast<InnerType>
+                                  (
+                                        step
+                                  )
                           }
 
                         , m_cmp
                           {
-                                  from < to ? &detail::less<T> : &detail::greater<T>
+                                  from < to ?
+                                        &detail::less<InnerType>
+                                        :
+                                        &detail::greater<InnerType>
                           }
                 {
 
                 }
 
 
-                constexpr auto begin() -> detail::range_iter<T>
+                constexpr auto begin() -> detail::range_iter<T, U, W>
                 {
                         return *this;
                 }
@@ -93,17 +120,23 @@ namespace rg
         private:
 
 
-                T m_n,
-                  m_to,
-                  m_step;
+                InnerType m_n,
+                          m_to,
+                          m_step;
 
 
-                bool (*m_cmp)(T, T);
+                bool (*m_cmp)(InnerType, InnerType);
 
 
         };
 
-        template <typename T>
+
+        template
+        <
+                class T,
+                class U,
+                class W
+        >
         class detail::range_iter
         {
         public:
@@ -112,25 +145,21 @@ namespace rg
                 range_iter() = delete;
 
 
-                constexpr range_iter(range<T>& rng)
-                        : m_rng{rng}
+                constexpr range_iter(range<T, U, W>& rng)
+                        : m_rng
+                          {
+                                  rng
+                          }
                 {
 
                 }
 
 
-                constexpr decltype(auto) operator++()
+                constexpr auto operator++() -> decltype(auto)
                 {
                         m_rng.m_n += m_rng.m_step;
+
                         return *this;
-                }
-
-
-                constexpr auto operator++(int)
-                {
-                        auto buf = *this;
-                        this->operator++();
-                        return buf;
                 }
 
 
@@ -140,7 +169,7 @@ namespace rg
                 }
 
 
-                constexpr auto& operator*() noexcept
+                constexpr auto operator*() noexcept
                 {
                         return m_rng.m_n;
                 }
@@ -149,7 +178,7 @@ namespace rg
         private:
 
 
-                range<T>& m_rng;
+                range<T, U, W>& m_rng;
 
 
         };
