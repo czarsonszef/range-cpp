@@ -65,7 +65,7 @@ namespace rg
                 range() = delete;
 
 
-                constexpr explicit range(T from, U to, W step = 1)
+                constexpr range(T from, U to, W step = 1)
                         : m_n
                           {
                                   static_cast<InnerType>
