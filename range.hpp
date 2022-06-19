@@ -53,6 +53,15 @@ namespace rg
         >
         class range
         {
+
+
+                static_assert(
+                        std::is_arithmetic_v<T> &&
+                        std::is_arithmetic_v<U> &&
+                        std::is_arithmetic_v<W>
+                );
+
+
         public:
 
 
