@@ -98,7 +98,8 @@ namespace rg
                                         &detail::greater<InnerType>
                           }
                 {
-
+                        if ((from < to && step < 0) || (from > to && step > 0))
+                                throw std::range_error("Incorrect range"); // todo: handle this case without throwing
                 }
 
 
