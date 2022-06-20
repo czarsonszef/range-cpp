@@ -19,10 +19,10 @@ namespace rg
                         class,
                         class
                 >
-                class range_iter;
+                class range_begin_type;
                 
 
-                struct empty
+                struct range_end_type
                 {
 
                 };
@@ -68,7 +68,7 @@ namespace rg
                 using InnerType = std::common_type_t<T, U, W>;
 
 
-                friend class detail::range_iter<T, U, W>;
+                friend class detail::range_begin_type<T, U, W>;
 
 
                 range() = delete;
@@ -117,13 +117,13 @@ namespace rg
                 }
 
 
-                constexpr auto begin() noexcept -> detail::range_iter<T, U, W>
+                constexpr auto begin() noexcept -> detail::range_begin_type<T, U, W>
                 {
                         return *this;
                 }
 
 
-                constexpr auto end() const noexcept -> detail::empty
+                constexpr auto end() const noexcept -> detail::range_end_type
                 {
                         return
                                 {
@@ -152,15 +152,15 @@ namespace rg
                 class U,
                 class W
         >
-        class detail::range_iter
+        class detail::range_begin_type
         {
         public:
 
 
-                range_iter() = delete;
+                range_begin_type() = delete;
 
 
-                constexpr range_iter(range<T, U, W>& rng) noexcept
+                constexpr range_begin_type(range<T, U, W>& rng) noexcept
                         : m_rng
                           {
                                   rng
@@ -178,7 +178,7 @@ namespace rg
                 }
 
 
-                constexpr auto operator!=(detail::empty) const noexcept
+                constexpr auto operator!=(detail::range_end_type const&) const noexcept
                 {
                         return m_rng.m_cmp(m_rng.m_n, m_rng.m_to);
                 }
