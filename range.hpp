@@ -184,7 +184,7 @@ namespace rg
                 }
 
 
-                constexpr auto operator*() noexcept
+                constexpr auto operator*() const noexcept
                 {
                         return m_rng.m_n;
                 }
