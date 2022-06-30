@@ -55,7 +55,8 @@ namespace rg
         {
 
 
-                static_assert(
+                static_assert
+                (
                         std::is_arithmetic_v<T> &&
                         std::is_arithmetic_v<U> &&
                         std::is_arithmetic_v<W>
@@ -109,9 +110,9 @@ namespace rg
 
                 {
 
-                        if ((m_n < m_to && m_step < 0) || (m_n > m_to && m_step > 0)) // if this check passes it means the range is incorrect, we don't want to enter the for loop
+                        if ((m_n < m_to && m_step < 0) || (m_n > m_to && m_step > 0)) // if this check passes it means the range is incorrect (for example 'range(5, 20, -5)')
                         {
-                                m_n = m_to;     // makes detail::range_iter::operator!= return false, the for loop won't be entered
+                                m_n = m_to;     // makes detail::range_begin_type::operator!=() return false, the for loop won't be entered
                         }
 
                 }
