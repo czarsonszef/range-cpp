@@ -7,20 +7,16 @@ namespace rg {
 
     template <class T, class U, class W = int>
     class range {
-
         static_assert(std::is_arithmetic_v<T> &&
                       std::is_arithmetic_v<U> &&
                       std::is_arithmetic_v<W>);
 
         struct end_empty_tag {};
 
-    public:
-
-        class __range_begin_type {
-
+        class range_begin_type {
         public:
 
-            constexpr __range_begin_type(range<T, U, W>& rng) noexcept
+            constexpr range_begin_type(range<T, U, W>& rng) noexcept
                 : m_rng{rng}
             {
 
@@ -45,11 +41,7 @@ namespace rg {
 
         };
 
-        friend class __range_begin_type;
-
         using inner_type = std::common_type_t<T, U, W>;
-
-    private:
 
         static constexpr bool less(inner_type lhs, inner_type rhs) noexcept {
             return lhs < rhs;
@@ -73,7 +65,7 @@ namespace rg {
             }
         }
 
-        constexpr auto begin() noexcept -> __range_begin_type {
+        constexpr auto begin() noexcept -> range_begin_type {
             return *this;
         }
 
